@@ -253,8 +253,8 @@ builder.addCase(fetchAllCategories.pending, (state) => {
  builder.addCase(fetchAllCategories.rejected, (state, action) => {
 
     state.loading = false
-    state.appError = action.payload.message
-    state.serverError = action.error.message
+    state.appError = action?.payload?.message
+    state.serverError = action?.error?.message
  })
 
  //single category

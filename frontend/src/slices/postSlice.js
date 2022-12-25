@@ -299,7 +299,7 @@ const postSlice = createSlice({
        //fetch all posts
        builder.addCase(fetchAllPosts.pending, (state) => {
 
-        state.loading = false
+        state.loading = true
        })
 
        builder.addCase(fetchAllPosts.fulfilled, (state, action) => {
@@ -313,8 +313,8 @@ const postSlice = createSlice({
        builder.addCase(fetchAllPosts.rejected, (state, action) => {
 
         state.loading = false
-        state.appError = action.payload.message
-        state.serverError = action.error.message
+        state.appError = action?.payload?.message
+        state.serverError = action?.error?.message
        })
 
        //post details
