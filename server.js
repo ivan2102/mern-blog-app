@@ -5,6 +5,7 @@ dotenv.config();
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
@@ -19,7 +20,7 @@ const app = express()
 
 //middleware
 app.use(express.json())
-
+app.use(cors())
 
 //routes
 app.use('/api/users', userRoutes)
@@ -45,7 +46,7 @@ app.use(notFoundError)
 app.use(errorHandler)
 
 
-const PORT = process.env.PORT || 5002
+const PORT = process.env.PORT || 5000
 app.listen(PORT, console.log(`Server is running on port ${PORT}`))
 
 
