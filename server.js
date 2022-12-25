@@ -2,7 +2,6 @@ import express from 'express';
 import dbConnect from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
-import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -20,7 +19,7 @@ const app = express()
 
 //middleware
 app.use(express.json())
-app.use(cors())
+
 
 //routes
 app.use('/api/users', userRoutes)
