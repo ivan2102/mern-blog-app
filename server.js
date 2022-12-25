@@ -22,36 +22,21 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+//path for production
+app.use(express.static(path.resolve(__dirname, './frontend/build')));
+
 //routes
 app.use('/api/users', userRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/comments', commentRoutes)
 app.use('/api/category', categoryRoutes)
 
-
-//path for production
-
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-   //path for production
-
-
- if(process.env.NODE_ENV === 'production') {
-
-  app.use(express.static(path.resolve(__dirname, './frontend/build')));
-
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'));
 });
 
- }else {
 
-  app.get('/', (req, res) => {
-
-    res.send('API is running...')
-})
-
- }
 
 //error handler
 app.use(notFoundError)
