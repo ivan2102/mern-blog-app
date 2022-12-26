@@ -23,9 +23,9 @@
     "setup-production": "npm run install-frontend && npm run build-frontend && npm install",
     "install-frontend": "cd frontend && npm install",
     "build-frontend": "cd frontend && npm run build",
-    "server": "nodemon server --ignore frontend",
+    "server": "nodemon server",
     "client": "npm start --prefix frontend",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",

@@ -2,10 +2,10 @@ import express from 'express';
 import dbConnect from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
+import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
@@ -21,6 +21,10 @@ const app = express()
 //middleware
 app.use(express.json())
 app.use(cors())
+
+app.get("/", (req, res) => {
+  res.json({ msg: "API for blog Application..." });
+});
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 //path for production
