@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import path from 'path';
+import cors from 'cors';
 import morgan from 'morgan';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -42,6 +43,7 @@ app.use(function (req, res, next) {
 
 //middleware
 app.use(express.json())
+app.use(cors())
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
