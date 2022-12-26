@@ -26,16 +26,14 @@ if (process.env.NODE_ENV !== 'production') {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //path for production
-app.use(express.static(path.resolve(__dirname, './frontend/build')));
+app.use(express.static(path.resolve(__dirname, './client/build')));
 
 
 
 
 //middleware
 app.use(express.json())
-app.use(cors({
-  origin: "http://localhost:3000"
-}))
+app.use(cors())
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
@@ -50,7 +48,7 @@ app.use('/api/category', categoryRoutes)
 
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
   });
   
   
