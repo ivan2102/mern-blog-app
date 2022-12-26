@@ -2,7 +2,6 @@ import express from 'express';
 import dbConnect from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
-import cors from 'cors';
 import path from 'path';
 import morgan from 'morgan';
 import { fileURLToPath } from 'url';
@@ -19,9 +18,8 @@ dbConnect()
 const app = express()
 
 
-//middleware
-app.use(express.json())
-app.use(cors())
+
+
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
@@ -31,6 +29,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //path for production
 app.use(express.static(path.resolve(__dirname, './frontend/build')));
+
+
+//middleware
+app.use(express.json())
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize());
 
 //routes
 app.use('/api/users', userRoutes)
