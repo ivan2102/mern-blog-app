@@ -26,7 +26,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 //path for production
 app.use(express.static(path.resolve(__dirname, './frontend/build')));
 
-
+app.use(function(req, res, next) {
+  res.setHeader("Content-Security-Policy", "script-src 'self' https://localhost");
+  next();
+});
 //middleware
 app.use(express.json())
 app.use(helmet());
