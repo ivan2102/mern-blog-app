@@ -30,7 +30,7 @@ app.use(express.static(path.resolve(__dirname, './frontend/build')));
 
 
 app.use(function(req, res, next) {
-  res.setHeader("Content-Security-Policy", "script-src 'self' https://localhost");
+  res.setHeader("Content-Security-Policy", "connect-src 'self' https://localhost");
   next();
 });
 
