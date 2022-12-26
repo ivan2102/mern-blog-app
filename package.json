@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "dependencies": {
     "@craco/craco": "^7.0.0",
     "bad-words": "^3.0.4",
@@ -28,9 +28,9 @@
     "setup-production": "npm run install-frontend && npm run build-frontend && npm install",
     "install-frontend": "cd frontend && npm install",
     "build-frontend": "cd frontend && npm run build",
-    "server": "nodemon server",
+    "server": "nodemon server --ignore frontend",
     "client": "npm start --prefix frontend",
-    "start": "concurrently \"npm run server\" \"npm run client\""
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
