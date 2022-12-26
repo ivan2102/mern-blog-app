@@ -15,17 +15,20 @@ import commentRoutes from './routes/commentRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import { errorHandler, notFoundError } from './middleware/errorHandler.js';
 
+const app = express()
+
 
 app.use(function (req, res, next) {
   res.setHeader(
-    'Content-Security-Policy-Report-Only',
-    "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'"
+    'Report-To',
+    '{"group":"csp-endpoint","max_age":10886400,"endpoints":[{"url":"http://localhost:5000/__cspreport__"}],"include_subdomains":true}'
+  );
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; font-src 'self'"
   );
   next();
 });
-
-
-const app = express()
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
