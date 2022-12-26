@@ -672,8 +672,8 @@ const userSlice = createSlice({
        builder.addCase(loginUser.rejected, (state, action) => {
 
         state.loading = false
-        state.appError = action.payload.message
-        state.serverError = action.error.message
+        state.appError = action?.payload?.message
+        state.serverError = action?.error?.message
        })
 
        //logout user
