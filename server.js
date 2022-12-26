@@ -27,6 +27,18 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 //path for production
 app.use(express.static(path.resolve(__dirname, './frontend/build')));
 
+app.use(function (req, res, next) {
+  res.setHeader(
+    'Report-To',
+    '{"group":"csp-endpoint","max_age":10886400,"endpoints":[{"url":"http://localhost:5000/__cspreport__"}],"include_subdomains":true}'
+  );
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; font-src 'self'"
+  );
+  next();
+});
+
 
 //middleware
 app.use(express.json())
@@ -39,18 +51,6 @@ app.use('/api/users', userRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/comments', commentRoutes)
 app.use('/api/category', categoryRoutes)
-
-app.use(function (req, res, next) {
-  res.setHeader(
-    'Report-To',
-    '{"group":"csp-endpoint","max_age":10886400,"endpoints":[{"url":"http://localhost:5000/__cspreport__"}],"include_subdomains":true}'
-  );
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self'; font-src 'self'"
-  );
-  next();
-});
 
 
 app.get('*', (req, res) => {
