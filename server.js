@@ -15,7 +15,6 @@ import commentRoutes from './routes/commentRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import { errorHandler, notFoundError } from './middleware/errorHandler.js';
 
-const app = express()
 
 
 app.use(function (req, res, next) {
@@ -29,6 +28,8 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
+const app = express()
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
