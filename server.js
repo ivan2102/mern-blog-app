@@ -29,10 +29,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, './frontend/build')));
 
 
-app.use(function(req, res, next) {
-  res.setHeader("Content-Security-Policy", "connect-src 'self' https://localhost");
-  next();
-});
+
 
 //middleware
 app.use(express.json())
@@ -42,6 +39,11 @@ app.use(cors({
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
+
+app.use(function(req, res, next) {
+  res.setHeader("Content-Security-Policy", "connect-src 'self' https://localhost");
+  next();
+});
 
 //routes
 app.use('/api/users', userRoutes)
