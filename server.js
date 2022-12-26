@@ -16,19 +16,6 @@ import categoryRoutes from './routes/categoryRoutes.js';
 import { errorHandler, notFoundError } from './middleware/errorHandler.js';
 
 
-
-app.use(function (req, res, next) {
-  res.setHeader(
-    'Report-To',
-    '{"group":"csp-endpoint","max_age":10886400,"endpoints":[{"url":"http://localhost:5000/__cspreport__"}],"include_subdomains":true}'
-  );
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self'; font-src 'self'"
-  );
-  next();
-});
-
 const app = express()
 
 if (process.env.NODE_ENV !== 'production') {
@@ -52,6 +39,18 @@ app.use('/api/users', userRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/comments', commentRoutes)
 app.use('/api/category', categoryRoutes)
+
+app.use(function (req, res, next) {
+  res.setHeader(
+    'Report-To',
+    '{"group":"csp-endpoint","max_age":10886400,"endpoints":[{"url":"http://localhost:5000/__cspreport__"}],"include_subdomains":true}'
+  );
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; font-src 'self'"
+  );
+  next();
+});
 
 
 app.get('*', (req, res) => {
