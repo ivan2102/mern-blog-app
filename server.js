@@ -15,6 +15,16 @@ import commentRoutes from './routes/commentRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import { errorHandler, notFoundError } from './middleware/errorHandler.js';
 
+
+app.use(function (req, res, next) {
+  res.setHeader(
+    'Content-Security-Policy-Report-Only',
+    "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'"
+  );
+  next();
+});
+
+
 const app = express()
 
 if (process.env.NODE_ENV !== 'production') {
@@ -26,10 +36,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 //path for production
 app.use(express.static(path.resolve(__dirname, './frontend/build')));
 
-app.use(function(req, res, next) {
-  res.setHeader("Content-Security-Policy", "script-src 'self' https://localhost");
-  next();
-});
+
 //middleware
 app.use(express.json())
 app.use(helmet());
