@@ -22,13 +22,17 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get("/", (req, res) => {
-  res.json({ msg: "API for blog Application..." });
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 //path for production
-app.use(express.static(path.resolve(__dirname, './frontend/build')));
 
 //routes
 app.use('/api/users', userRoutes)
@@ -36,9 +40,21 @@ app.use('/api/posts', postRoutes)
 app.use('/api/comments', commentRoutes)
 app.use('/api/category', categoryRoutes)
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'));
-});
+
+
+if(process.env.NODE_ENV === "production") {
+  app.use(express.static(path.resolve(__dirname, './frontend/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'));
+  });
+  
+  
+} else {
+  app.get('/', (req, res)=>{
+      res.send('API RUNNING')
+  })
+}
 
 
 
