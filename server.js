@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
 import path from 'path';
+import morgan from 'morgan';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import userRoutes from './routes/userRoutes.js';
@@ -22,17 +23,14 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
 //path for production
+app.use(express.static(path.resolve(__dirname, './frontend/build')));
 
 //routes
 app.use('/api/users', userRoutes)
@@ -41,23 +39,11 @@ app.use('/api/comments', commentRoutes)
 app.use('/api/category', categoryRoutes)
 
 
-
-if(process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve(__dirname, './frontend/build')));
-
-  app.get('*', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'));
   });
   
   
-} else {
-  app.get('/', (req, res)=>{
-      res.send('API RUNNING')
-  })
-}
-
-
-
 //error handler
 app.use(notFoundError)
 app.use(errorHandler)
