@@ -1,25 +1,18 @@
 import express from 'express';
-import dbConnect from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
 import path from 'path';
 import morgan from 'morgan';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import { errorHandler, notFoundError } from './middleware/errorHandler.js';
 
-
-dbConnect()
-
 const app = express()
-
-
-
-
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
@@ -54,7 +47,19 @@ app.use(notFoundError)
 app.use(errorHandler)
 
 
-const PORT = process.env.PORT || 5000
-app.listen(PORT, console.log(`Server is running on port ${PORT}`))
+const port = process.env.PORT || 5000
+
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () => {
+      console.log(`Server is listening on port ${port}...`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();
 
 
